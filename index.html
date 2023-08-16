@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <div id="AddToDo" class="card card-body">
+            <form id="addForm" class="form-inline mb-3">
+                <h2>Add Item</h2>
+                <label for="name">Name-</label>
+                <input type="text" id="name">
+                <label for="description">Description-</label>
+                <input type="text" id="description">
+                <input type="submit" id="submit" value="SUBMIT" class="btn btn-dark">
+            </form>
+            
+        </div>
+        <div id="ToDo" class="card card-body">
+            <h2>Task to be done:</h2>
+        <!--<form id="ToDoForm" class="form-inline mb-3">--> 
+                
+            <ul id="items" class="ListUL"></ul>
+            
+        </div>
+        <div id="Done" class="card card-body">
+           
+            <h2>Task Completed:</h2>
+            <ul id="doneItems"></ul>
+            
+        </div>
+    </div>
+    <script src ="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
