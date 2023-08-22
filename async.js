@@ -2,23 +2,24 @@ const inputForm = document.querySelector('#addForm');
 const nameInput = document.querySelector('#name');
 const descInput = document.querySelector('#description');
 
-window.addEventListener("DOMContentLoaded",() => {
-    axios.get("https://crudcrud.com/api/798bf67962ef474091b847583c6e702f/AppointData")
-         .then((res) => {
-            
-            for(var i=0;i<res.data.length;i++){
-                //console.log(res.data[i])
-                AddToDoList(res.data[i]);
-            }
-         })
-         .catch(err =>{
-            console.log(err)
-         })
+
+
+
+window.addEventListener("DOMContentLoaded",async () => { 
+    try {
+        const res = await axios.get("https://crudcrud.com/api/b2e70919822a48bf8f0f493866e34222/AppointData");
+        for(var i=0;i<res.data.length;i++){
+            AddToDoList(res.data[i]);
+        }
+    } catch (error) {
+        console.log(error)
+    }
 })
+
 
 inputForm.addEventListener('submit',onSubmit);
 
-function onSubmit(e){
+async function onSubmit(e){
     e.preventDefault();
     if(nameInput.value == ''||descInput.value==''){
         alert("Enter the fields");
@@ -29,14 +30,14 @@ function onSubmit(e){
             descObj: descInput.value,
             isDone: false
         };
-        axios.post("https://crudcrud.com/api/798bf67962ef474091b847583c6e702f/AppointData",myObj)
-        .then((response) => {
+        try{
+            const response = await axios.post("https://crudcrud.com/api/b2e70919822a48bf8f0f493866e34222/AppointData",myObj)
             console.log(response)
-        })
-        .catch((error) => {
+        }catch(error){
             document.body.innerHTML = document.body.innerHTML + "<h4> Something went wrong</h4>"
             console.log(error);
-        })
+        }
+        
         AddToDoList(myObj);
         nameInput.value='';
         descInput.value='';
@@ -59,18 +60,22 @@ function AddToDoList(obj){
    
 }
 
-function doneTask(name,desc,isDone,id){
+async function doneTask(name,desc,isDone,id){
+    try{
     let myObj = {
         nameObj: name,
         descObj: desc,
         isDone: true
     };
+        
+    console.log("hit")
     if(id){
-        axios.put(`https://crudcrud.com/api/798bf67962ef474091b847583c6e702f/AppointData/${id}`,myObj)
-        .then()
-        .catch(err => console.log(err))
+        await axios.put(`https://crudcrud.com/api/b2e70919822a48bf8f0f493866e34222/AppointData/${id}`,myObj);
+
+         } 
+    }catch (error) {
+                console.log(error)
     }
-    
     doneFun(name,desc);
     removeList(name);
 }
@@ -82,14 +87,16 @@ function doneFun(name,desc){
     parentNode.innerHTML = parentNode.innerHTML+childHTML;
 }
 
-function deleteTask(name,isDone,id){
-    console.log(id)
+async function deleteTask(name,isDone,id){
+    try{
+        //console.log(id)
     if(id!="undefined"){
-        axios.delete(`https://crudcrud.com/api/798bf67962ef474091b847583c6e702f/AppointData/${id}`)
-        .then()
-        .catch(err => console.log(err))
+        await  axios.delete(`https://crudcrud.com/api/b2e70919822a48bf8f0f493866e34222/AppointData/${id}`)
     }
-        
+    }
+    catch (error) {
+        console.log(error)
+    }
     removeList(name);
     
 }
@@ -99,3 +106,4 @@ function removeList(name){
     let childToBeRemoved = document.getElementById(name);
     parentNode.removeChild(childToBeRemoved);
 }
+
